@@ -1,3 +1,5 @@
+import java.io.*;
+
 /** CompactPrefixTree class, implements Dictionary ADT and
  *  several additional methods. Can be used as a spell checker.
  *  Fill in code in the methods of this class. You may add additional methods. */
@@ -20,7 +22,18 @@ public class CompactPrefixTree implements Dictionary {
     public CompactPrefixTree(String filename) {
         // FILL IN CODE:
         // Read each word from the file, add it to the tree
-
+        root = new Node();
+        int i = 0;
+        try(BufferedReader reader = new BufferedReader(new FileReader(filename))){
+            String line = reader.readLine();
+            while(line != null){
+                add(line);
+                line = reader.readLine();
+//                System.out.println("adding:"+ (i++));
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -99,10 +112,10 @@ public class CompactPrefixTree implements Dictionary {
     public void printTree() {
         // FILL IN CODE
         printTreeHelper(root, 0);
-
+//        System.out.println(toString("", root, 0));
     }
 
-    public void printTreeHelper(Node node, int indent){
+    private void printTreeHelper(Node node, int indent){
         if (node != null) {
             for(int i = 0; i < indent; i++) System.out.print(" ");
             if(node.isWord) {
@@ -124,8 +137,29 @@ public class CompactPrefixTree implements Dictionary {
     public void printTree(String filename) {
         // FILL IN CODE
         // Same as printTree, but outputs info to a file
+        try(PrintWriter pw = new PrintWriter(filename)){
+            pw.write(toString("", root, 0));
 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    public String toString(String s, Node node, int indent) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(s);
+        if(node == null){
+            return sb.toString();
+        }
+        for(int i = 0; i < indent; i++) sb.append(" ");
+        if(node.isWord) sb.append(node.prefix + "*\n");
+        if(!node.isWord) sb.append(node.prefix + "\n");
+        for(Node child: node.children){
+            sb.append(toString(s, child, indent + 1));
+        }
+
+        return sb.toString();
     }
 
     /**

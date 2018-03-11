@@ -1,6 +1,12 @@
 /** The Driver class for CompactPrefixTree */
 public class Driver {
     public static void main(String[] args) {
+        String s = "apple";
+        String s2 = "banana";
+        StringBuilder sb = new StringBuilder();
+        sb.append(s);
+        sb.append(s2);
+        System.out.println(sb.toString());
 //            Dictionary dict = new CompactPrefixTree();
 //            dict.add("cat");
 //            dict.add("cart");
@@ -12,20 +18,20 @@ public class Driver {
 //            dict.add("wrath");
 //            dict.add("wristle");
 //            dict.print();
-        CompactPrefixTree cpt = new CompactPrefixTree();
-        cpt.add("apple");
-        cpt.add("app");
-        cpt.add("apear");
-        cpt.add("april");
-        cpt.add("add");
-        cpt.add("amen");
-        cpt.add("boy");
-        cpt.add("boil");
-        cpt.add("bitch");
-//        cpt.found();
-
-//        cpt.print();
-        cpt.printTree();
+//        CompactPrefixTree cpt = new CompactPrefixTree();
+//        cpt.add("apple");
+//        cpt.add("app");
+//        cpt.add("apear");
+//        cpt.add("april");
+//        cpt.add("add");
+//        cpt.add("amen");
+//        cpt.add("boy");
+//        cpt.add("boil");
+//        cpt.add("bitch");
+////        cpt.found();
+//
+////        cpt.print();
+//        cpt.printTree();
 //        System.out.println(cpt.checkPrefix("appr"));
 
 //        String a = "applapp";
