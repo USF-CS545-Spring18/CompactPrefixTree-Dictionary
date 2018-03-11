@@ -24,11 +24,43 @@ public class CompactPrefixTree implements Dictionary {
 
     }
 
+    public void found(){
+        Node ap = new Node();
+        ap.prefix = "ap";
+        root.children[getIndex('a')] = ap;
+        Node ca = new Node();
+        ca.prefix = "ca";
+        root.children[getIndex('c')] = ca;
+
+        Node e = new Node();
+        e.prefix = "e";
+        e.isWord = true;
+        ap.children[getIndex('e')] = e;
+        Node ple = new Node();
+        ple.prefix = "ple";
+        ple.isWord = true;
+        ap.children[getIndex('c')] = ple;
+
+        Node rt = new Node();
+        rt.prefix = "rt";
+        rt.isWord = true;
+        ca.children[getIndex('r')] = rt;
+        Node t = new Node();
+        t.prefix = "t";
+        t.isWord = true;
+        ca.children[getIndex('t')] = t;
+
+        Node s = new Node();
+        s.prefix = "s";
+        s.isWord = true;
+        t.children[getIndex('s')] = s;
+    }
+
     /** Adds a given word to the dictionary.
      * @param word the word to add to the dictionary
      */
     public void add(String word) {
-        add(word.toLowerCase(), root); // Calling private add method
+        root = add(word.toLowerCase(), root); // Calling private add method
     }
 
     /**
@@ -132,6 +164,7 @@ public class CompactPrefixTree implements Dictionary {
      */
     private boolean check(String s, Node node) {
         // FILL IN CODE
+        
 
         return false; // don't forget to change it
     }
@@ -158,6 +191,30 @@ public class CompactPrefixTree implements Dictionary {
     private void print(String s, Node node) {
         // FILL IN CODE
 
+    }
+    /**
+     * get the index of the character from a to z
+     * @param c the character you want to get the index
+     */
+    public int getIndex(char c){
+        return (int)c - (int)'a';
+    }
+
+    /**
+     * computes the	 longest common	prefix	of	two	strings
+     * return the index of the first not common letter
+     * @param s1 the first string
+     * @param s2 the secound string
+     */
+    public  int findLongestCommonPrefix(String s1, String s2){
+        int i = 0;
+        while(i < Math.min(s1.length(), s2.length())){
+            if(s1.charAt(i) != s2.charAt(i)){
+                break;
+            }
+            i++;
+        }
+        return i;
     }
 
     // FILL IN CODE: add a private suggest method. Decide which parameters
