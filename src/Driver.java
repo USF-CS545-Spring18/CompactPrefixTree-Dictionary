@@ -13,15 +13,25 @@ public class Driver {
 //            dict.add("wristle");
 //            dict.print();
         CompactPrefixTree cpt = new CompactPrefixTree();
+        cpt.add("apple");
+        cpt.add("app");
+        cpt.add("apear");
+        cpt.add("april");
+        cpt.add("add");
+        cpt.add("amen");
+        cpt.add("boy");
+        cpt.add("boil");
+        cpt.add("bitch");
+//        cpt.found();
 
-        cpt.found();
 //        cpt.print();
         cpt.printTree();
+//        System.out.println(cpt.checkPrefix("appr"));
 
-//        String a = "appleapp";
-//        String b = "apple";
-//        int i = cpt.findLongestCommonPrefix(a, b);
-//        System.out.println(cpt.getIndex('c'));
+//        String a = "applapp";
+//        String b = "applement";
+//        String c = cpt.findLongestCommonPrefix(a, b);
+//        System.out.println(c);
 //        System.out.println(a.substring(0,i));
 //        System.out.println(a.substring(i));
 //        System.out.println(b.substring(i));

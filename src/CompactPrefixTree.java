@@ -164,9 +164,39 @@ public class CompactPrefixTree implements Dictionary {
      */
     private Node add(String s, Node node) {
         // FILL IN CODE
+//        System.out.println(s);
+        if(node == null){
+            Node newNode = new Node();
+            newNode.prefix = s;
+            newNode.isWord = true;
+            return newNode;
+        }
+        if(node.prefix.equals(s)){
+            if(!node.isWord) node.isWord = true;
+            return node;
+        }
+        if(s.startsWith(node.prefix)){
+            s = getSuffix(s, node.prefix);
+            int i = getIndex(s.charAt(0));
+            node.children[i] = add(s, node.children[i]);
+            return node;
+        }
 
-
-        return null; // don't forget to change it
+        String common = findLongestCommonPrefix(s, node.prefix);
+//        System.out.println(common);
+        int l = common.length();
+        node.prefix = node.prefix.substring(l);
+        s = s.substring(l);
+        Node newNode = new Node();
+        newNode.prefix = common;
+        newNode.children[getIndex(node.prefix.charAt(0))] = node;
+        if(!s.isEmpty()) {
+            newNode.children[getIndex(s.charAt(0))] = add(s, newNode.children[getIndex(s.charAt(0))]);
+        }
+        if(s.isEmpty()){
+            newNode.isWord = true;
+        }
+        return newNode;
     }
 
 
@@ -178,9 +208,20 @@ public class CompactPrefixTree implements Dictionary {
      */
     private boolean check(String s, Node node) {
         // FILL IN CODE
-        
+        if(node == null) return false;
+        if(!s.startsWith(node.prefix)) return false;
+        if(s.equals(node.prefix) && !node.isWord) return false;
+        if(s.equals(node.prefix) && node.isWord) return true;
 
-        return false; // don't forget to change it
+        s = getSuffix(s, node.prefix);
+        int i = getIndex(s.charAt(0));
+        return check(s, node.children[i]); // don't forget to change it
+    }
+
+    private String getSuffix(String sl, String ss){
+        int i = ss.length();
+        String result = sl.substring(i);
+        return result;
     }
 
     /**
@@ -192,8 +233,16 @@ public class CompactPrefixTree implements Dictionary {
      */
     private boolean checkPrefix(String prefix, Node node) {
         // FILL IN CODE
+        if(node == null) return false;
+        if(prefix.length() <= node.prefix.length()){
+            return node.prefix.startsWith(prefix);
+        }
+        if(!prefix.startsWith(node.prefix)) return false;
 
-        return false; // don't forget to change it
+
+        prefix = getSuffix(prefix, node.prefix);
+        int i = getIndex(prefix.charAt(0));
+        return checkPrefix(prefix, node.children[i]); // don't forget to change it
     }
 
     /**
@@ -226,7 +275,7 @@ public class CompactPrefixTree implements Dictionary {
      * @param s1 the first string
      * @param s2 the secound string
      */
-    public  int findLongestCommonPrefix(String s1, String s2){
+    public String findLongestCommonPrefix(String s1, String s2){
         int i = 0;
         while(i < Math.min(s1.length(), s2.length())){
             if(s1.charAt(i) != s2.charAt(i)){
@@ -234,7 +283,7 @@ public class CompactPrefixTree implements Dictionary {
             }
             i++;
         }
-        return i;
+        return s1.substring(0, i);
     }
 
     // FILL IN CODE: add a private suggest method. Decide which parameters
