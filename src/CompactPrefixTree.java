@@ -39,7 +39,7 @@ public class CompactPrefixTree implements Dictionary {
         Node ple = new Node();
         ple.prefix = "ple";
         ple.isWord = true;
-        ap.children[getIndex('c')] = ple;
+        ap.children[getIndex('p')] = ple;
 
         Node rt = new Node();
         rt.prefix = "rt";
@@ -98,8 +98,22 @@ public class CompactPrefixTree implements Dictionary {
      */
     public void printTree() {
         // FILL IN CODE
+        printTreeHelper(root, 0);
 
+    }
 
+    public void printTreeHelper(Node node, int indent){
+        if (node != null) {
+            for(int i = 0; i < indent; i++) System.out.print(" ");
+            if(node.isWord) {
+                System.out.println(node.prefix + "*");
+            }else{
+                System.out.println(node.prefix);
+            }
+            for(Node child: node.children){
+                printTreeHelper(child, indent + 1);
+            }
+        }
     }
 
     /**
@@ -190,7 +204,13 @@ public class CompactPrefixTree implements Dictionary {
      */
     private void print(String s, Node node) {
         // FILL IN CODE
-
+        if(node == null) return;
+        if(node.isWord) {
+            System.out.println(s + node.prefix);
+        }
+        for (int i = 0; i < 26; i++) {
+            print(s + node.prefix, node.children[i]);
+        }
     }
     /**
      * get the index of the character from a to z

@@ -14,14 +14,17 @@ public class Driver {
 //            dict.print();
         CompactPrefixTree cpt = new CompactPrefixTree();
 
+        cpt.found();
+//        cpt.print();
+        cpt.printTree();
 
-        String a = "appleapp";
-        String b = "apple";
-        int i = cpt.findLongestCommonPrefix(a, b);
-        System.out.println(a.substring(0,i));
-        System.out.println(a.substring(0,i));
-        System.out.println(a.substring(i));
-        System.out.println(b.substring(i));
+//        String a = "appleapp";
+//        String b = "apple";
+//        int i = cpt.findLongestCommonPrefix(a, b);
+//        System.out.println(cpt.getIndex('c'));
+//        System.out.println(a.substring(0,i));
+//        System.out.println(a.substring(i));
+//        System.out.println(b.substring(i));
             // Add other "tests"
     }
 }
