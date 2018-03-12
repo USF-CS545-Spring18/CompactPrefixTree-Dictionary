@@ -2,6 +2,7 @@
 project2-YaleiShi created by GitHub Classroom
 
 The suggest method:
+
 Firstly check if the word is in the tree, if so, just return an array only having the word;
 if not, call the helper method;
 Helper method:
