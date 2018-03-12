@@ -4,8 +4,11 @@ project2-YaleiShi created by GitHub Classroom
 The suggest method:
 
 Firstly check if the word is in the tree, if so, just return an array only having the word;
+
 if not, call the helper method;
+
 Helper method:
+
      * Note: when this method is called, it means the search word is not in the dictionary;
      *
      * Algorithm: 1. check the index, if index == numSuggestions which means the array is full,
