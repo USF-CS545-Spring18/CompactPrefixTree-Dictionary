@@ -29,7 +29,6 @@ public class CompactPrefixTree implements Dictionary {
             while(line != null){
                 add(line);
                 line = reader.readLine();
-//                System.out.println("adding:"+ (i++));
             }
         }catch (IOException e) {
             e.printStackTrace();
@@ -80,9 +79,13 @@ public class CompactPrefixTree implements Dictionary {
     public void printTree() {
         // FILL IN CODE
         printTreeHelper(root, 0);
-//        System.out.println(toString("", root, 0));
     }
 
+    /**
+     * the helper method of printTree, take the indent and the node of root
+     * @param node
+     * @param indent
+     */
     private void printTreeHelper(Node node, int indent){
         if (node != null) {
             for(int i = 0; i < indent; i++) System.out.print(" ");
@@ -114,6 +117,13 @@ public class CompactPrefixTree implements Dictionary {
 
     }
 
+    /**
+     * Save tree to String, help print it in a file
+     * @param s
+     * @param node
+     * @param indent
+     * @return
+     */
     public String toString(String s, Node node, int indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(s);
@@ -151,17 +161,53 @@ public class CompactPrefixTree implements Dictionary {
         // Note: you need to create a private suggest method in this class
         // (like we did for methods add, check, checkPrefix)
         String[] ss;
+        //check if the word is in the tree, if so, just return an array only having the word
         if(check(word)){
             ss = new String[1];
             ss[0] = word;
             return ss;
         }
+        //if not, call the helper method
         ss = new String[numSuggestions];
         ss = suggest("", word, numSuggestions, 0, ss, root);
 
         return ss; // don't forget to change it
     }
 
+    /**
+     * the helper method of suggest, recursively dig into the tree, keep tracking
+     * the array size all the time to make sure once the array is full, break out the program.
+     *
+     * Note: when this method is called, it means the search word is not in the dictionary;
+     *
+     * Algorithm: 1. check the index, if index == numSuggestions which means the array is full,
+     *            return the array without any change;
+     *            2. check the node, if the node is null, which means there is no words and there
+     *            will be no words in the deeper place, so return the array without any change;
+     *            3. save the "word" by plus the prefix of the node
+     *            4. if the search String is still longer than the prefix, it means we can still
+     *            dig deeper, since the search word is impossible equal to the prefix(by the note),
+     *            we simply cut off the search String, leave the part after the index of prefix.length
+     *            and just dig into the specific child of the node by call this method recursively.
+     *            5. after we come back from the deeper place of the tree, check if the array is full now,
+     *            if so, return the array.
+     *            6. if the array still have place, and the "word" is truely a word, add it into the array,
+     *            and make the index++;
+     *            7. check if the array is full again
+     *            8. if the array still have place, we can still dig deeper. This time, we would not go to
+     *            a specific one but iterate all the child of the node. Everytime we come back from the child
+     *            we check the size of array, if full, break out;
+     *            9. finally return the array to the upper method.
+     *            10.Since we put the "dig specific child" in front of others, we would firstly add the deepest
+     *            words in the tree into the array.
+     * @param word
+     * @param search
+     * @param numSuggestions
+     * @param index
+     * @param array
+     * @param node
+     * @return
+     */
     // ---------- Private helper methods ---------------
     private String[] suggest(String word, String search, int numSuggestions, int index, String[] array, Node node){
         if(index == numSuggestions){ //the array is full;
@@ -192,6 +238,11 @@ public class CompactPrefixTree implements Dictionary {
         return array;
     }
 
+    /**
+     * helper method to get the array's first available index;
+     * @param s
+     * @return
+     */
     private int getArrayIndex(String[] s){
         int i;
         for(i = 0; i < s.length; i++){
@@ -209,7 +260,6 @@ public class CompactPrefixTree implements Dictionary {
      */
     private Node add(String s, Node node) {
         // FILL IN CODE
-//        System.out.println(s);
         if(node == null){
             Node newNode = new Node();
             newNode.prefix = s;
@@ -228,7 +278,6 @@ public class CompactPrefixTree implements Dictionary {
         }
 
         String common = findLongestCommonPrefix(s, node.prefix);
-//        System.out.println(common);
         int l = common.length();
         node.prefix = node.prefix.substring(l);
         s = s.substring(l);
@@ -263,6 +312,12 @@ public class CompactPrefixTree implements Dictionary {
         return check(s, node.children[i]); // don't forget to change it
     }
 
+    /**
+     * get the suffix of the longer String by cutting off the shorter one
+     * @param sl
+     * @param ss
+     * @return
+     */
     private String getSuffix(String sl, String ss){
         int i = ss.length();
         String result = sl.substring(i);
