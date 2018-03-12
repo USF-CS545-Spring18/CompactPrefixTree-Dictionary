@@ -83,8 +83,8 @@ public class CompactPrefixTree implements Dictionary {
 
     /**
      * the helper method of printTree, take the indent and the node of root
-     * @param node
-     * @param indent
+     * @param node the node we are going to operate
+     * @param indent the number of space before we print the prefix
      */
     private void printTreeHelper(Node node, int indent){
         if (node != null) {
@@ -119,9 +119,9 @@ public class CompactPrefixTree implements Dictionary {
 
     /**
      * Save tree to String, help print it in a file
-     * @param s
-     * @param node
-     * @param indent
+     * @param s the up to now String we saved from the top to now
+     * @param node the node we are to operate
+     * @param indent the number of space before we print the prefix
      * @return
      */
     public String toString(String s, Node node, int indent) {
@@ -200,13 +200,13 @@ public class CompactPrefixTree implements Dictionary {
      *            9. finally return the array to the upper method.
      *            10.Since we put the "dig specific child" in front of others, we would firstly add the deepest
      *            words in the tree into the array.
-     * @param word
-     * @param search
-     * @param numSuggestions
-     * @param index
-     * @param array
-     * @param node
-     * @return
+     * @param word the prefix we stored along the path to here
+     * @param search the left String of the original search word
+     * @param numSuggestions the max number of suggestions
+     * @param index the index of first available place in the array
+     * @param array the array we are to return
+     * @param node the node we are to operate
+     * @return an array we have added the words
      */
     // ---------- Private helper methods ---------------
     private String[] suggest(String word, String search, int numSuggestions, int index, String[] array, Node node){
@@ -240,8 +240,8 @@ public class CompactPrefixTree implements Dictionary {
 
     /**
      * helper method to get the array's first available index;
-     * @param s
-     * @return
+     * @param s the array we are to get first available place
+     * @return the int of index of the first available place
      */
     private int getArrayIndex(String[] s){
         int i;
@@ -314,9 +314,9 @@ public class CompactPrefixTree implements Dictionary {
 
     /**
      * get the suffix of the longer String by cutting off the shorter one
-     * @param sl
-     * @param ss
-     * @return
+     * @param sl the long String
+     * @param ss the short String
+     * @return the suffix of the long string
      */
     private String getSuffix(String sl, String ss){
         int i = ss.length();
