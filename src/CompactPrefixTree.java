@@ -37,38 +37,6 @@ public class CompactPrefixTree implements Dictionary {
 
     }
 
-    public void found(){
-        Node ap = new Node();
-        ap.prefix = "ap";
-        root.children[getIndex('a')] = ap;
-        Node ca = new Node();
-        ca.prefix = "ca";
-        root.children[getIndex('c')] = ca;
-
-        Node e = new Node();
-        e.prefix = "e";
-        e.isWord = true;
-        ap.children[getIndex('e')] = e;
-        Node ple = new Node();
-        ple.prefix = "ple";
-        ple.isWord = true;
-        ap.children[getIndex('p')] = ple;
-
-        Node rt = new Node();
-        rt.prefix = "rt";
-        rt.isWord = true;
-        ca.children[getIndex('r')] = rt;
-        Node t = new Node();
-        t.prefix = "t";
-        t.isWord = true;
-        ca.children[getIndex('t')] = t;
-
-        Node s = new Node();
-        s.prefix = "s";
-        s.isWord = true;
-        t.children[getIndex('s')] = s;
-    }
-
     /** Adds a given word to the dictionary.
      * @param word the word to add to the dictionary
      */
@@ -153,8 +121,8 @@ public class CompactPrefixTree implements Dictionary {
             return sb.toString();
         }
         for(int i = 0; i < indent; i++) sb.append(" ");
-        if(node.isWord) sb.append(node.prefix + "*\n");
-        if(!node.isWord) sb.append(node.prefix + "\n");
+        if(node.isWord) sb.append(node.prefix + "*" + System.lineSeparator());
+        if(!node.isWord) sb.append(node.prefix + System.lineSeparator());
         for(Node child: node.children){
             sb.append(toString(s, child, indent + 1));
         }
@@ -182,12 +150,55 @@ public class CompactPrefixTree implements Dictionary {
         // FILL IN CODE
         // Note: you need to create a private suggest method in this class
         // (like we did for methods add, check, checkPrefix)
+        String[] ss;
+        if(check(word)){
+            ss = new String[1];
+            ss[0] = word;
+            return ss;
+        }
+        ss = new String[numSuggestions];
+        ss = suggest("", word, numSuggestions, 0, ss, root);
 
-
-        return null; // don't forget to change it
+        return ss; // don't forget to change it
     }
 
     // ---------- Private helper methods ---------------
+    private String[] suggest(String word, String search, int numSuggestions, int index, String[] array, Node node){
+        if(index == numSuggestions){ //the array is full;
+            return array;
+        }
+        if(node == null){// this path has no other words witch can be added;
+            return array;
+        }
+        word = word + node.prefix;
+        if(search.length() > node.prefix.length()){
+            search = search.substring(node.prefix.length());
+            array = suggest(word, search, numSuggestions, index, array, node.children[getIndex(search.charAt(0))]);
+            index = getArrayIndex(array);//get the first null index;
+        }
+
+        if(index == numSuggestions) return array; // always checking the array size;
+
+        if(node.isWord){
+            array[index] = word;
+            index++;
+        }
+        if(index == numSuggestions) return array; // always checking the array size;
+        for(Node child: node.children){
+            array = suggest(word, "", numSuggestions, index, array, child);
+            index = getArrayIndex(array);
+            if(index == numSuggestions) break;
+        }
+        return array;
+    }
+
+    private int getArrayIndex(String[] s){
+        int i;
+        for(i = 0; i < s.length; i++){
+            if(s[i] == null) break;
+        }
+        return i;
+    }
 
     /**
      *  A private add method that adds a given string to the tree
